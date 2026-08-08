@@ -1,4 +1,4 @@
-# GST Management System V2
+# GST Management System V3
 
 A desktop GST billing and invoice management application built with Python, Tkinter, and MySQL.
 
@@ -27,13 +27,14 @@ This repository is a reconstructed and improved version of an earlier GST manage
 ## Project Structure
 
 ```text
-gst-management-system-v2/
+gst-management-system-v3/
 ├── app.py
 ├── customers.py
 ├── database.py
 ├── invoices.py
 ├── login.py
 ├── products.py
+├── pdf_invoice.py
 ├── theme.py
 ├── ui_helpers.py
 ├── schema.sql
@@ -112,7 +113,7 @@ These credentials are only for local demonstration.
 ## Future Improvements
 
 - Password hashing
-- PDF invoice generation
+- PDF invoice generation ✅
 - Invoice detail view
 - Delete/edit customers and products
 - Inventory management
@@ -127,3 +128,14 @@ This project is a modern reimplementation of an earlier academic/personal GST ma
 ## Author
 
 Krishna Bansal
+
+
+## PDF Invoices
+
+After an invoice is saved, the application automatically creates a PDF in:
+
+```text
+generated_invoices/
+```
+
+Generated PDFs are excluded from Git commits through `.gitignore`.

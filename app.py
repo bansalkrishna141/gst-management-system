@@ -14,7 +14,7 @@ root.title("GST Management System")
 root.geometry("860x560")
 root.configure(bg=BG)
 root.minsize(820, 520)
-#root.withdraw()
+# root.withdraw()
 
 configure_ttk()
 

@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from database import get_connection
 from theme import BG, CARD, TEXT, MUTED, BORDER
 from ui_helpers import make_title, make_subtitle, make_card, make_label, make_entry, make_button
+from pdf_invoice import generate_invoice_pdf
 
 def open_invoices(root):
     window = tk.Toplevel(root)
@@ -218,7 +219,25 @@ def open_invoices(root):
             messagebox.showerror("Database Error", str(exc))
             return
 
-        messagebox.showinfo("Invoice Saved", f"Invoice #{invoice_id} saved successfully.")
+        try:
+            pdf_path = generate_invoice_pdf(
+                invoice_id,
+                customer_name,
+                items,
+                subtotal,
+                gst_total,
+                grand_total
+            )
+            messagebox.showinfo(
+                "Invoice Saved",
+                f"Invoice #{invoice_id} saved successfully.\n\nPDF created at:\n{pdf_path}"
+            )
+        except Exception as exc:
+            messagebox.showwarning(
+                "Invoice Saved",
+                f"Invoice #{invoice_id} was saved, but the PDF could not be generated.\n\n{exc}"
+            )
+
         window.destroy()
 
     add_btn = make_button(form_card, "Add Item", add_item, primary=True, width=16)
