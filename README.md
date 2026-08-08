@@ -1,20 +1,21 @@
-# GST Management System
+# GST Management System V2
 
-A desktop-based GST billing and invoice management application developed using Python, Tkinter, and MySQL.
+A desktop GST billing and invoice management application built with Python, Tkinter, and MySQL.
 
-This project is a modern reimplementation of an earlier GST management prototype originally developed as an academic/personal project. The application was rebuilt to improve code organization, database design, and usability.
+This repository is a reconstructed and improved version of an earlier GST management prototype. Version 2 focuses on clearer code structure, a Mac dark-mode-safe interface, improved database error handling, and invoice history.
 
 ## Features
 
-- User authentication
+- Login authentication
 - Customer management
 - Product management
-- GST percentage configuration
+- Configurable GST rates
 - Automatic GST calculation
-- Multi-product invoice creation
-- Invoice storage using MySQL
-- Invoice item tracking
-- Desktop graphical interface using Tkinter
+- Multi-item invoice creation
+- MySQL invoice storage
+- Invoice history and customer search
+- Dark-mode-safe custom Tkinter colors
+- Database connection status on dashboard
 
 ## Tech Stack
 
@@ -26,73 +27,102 @@ This project is a modern reimplementation of an earlier GST management prototype
 ## Project Structure
 
 ```text
-gst-management-system/
+gst-management-system-v2/
 ├── app.py
-├── database.py
-├── login.py
 ├── customers.py
-├── products.py
+├── database.py
 ├── invoices.py
+├── login.py
+├── products.py
+├── theme.py
+├── ui_helpers.py
 ├── schema.sql
 ├── requirements.txt
+├── .env.example
 ├── .gitignore
 └── README.md
 ```
 
-## Database Design
+## Setup on macOS
 
-The application uses the following tables:
-
-- users
-- customers
-- products
-- invoices
-- invoice_items
-
-Each invoice is linked to a customer and can contain multiple products.
-
-## GST Calculation
-
-GST Amount = Price × Quantity × GST Rate / 100
-
-Final Amount = Subtotal + GST Amount
-
-## Installation
-
-1. Install dependencies:
+### 1. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
-2. Run `schema.sql` in MySQL.
+### 2. Start MySQL
 
-3. Update your MySQL credentials in `database.py`.
-
-4. Start the application:
+If installed with Homebrew:
 
 ```bash
-python app.py
+brew services start mysql
 ```
 
-## Default Login
+### 3. Create the database
+
+From inside this project folder:
+
+```bash
+mysql -u root < schema.sql
+```
+
+If your MySQL root user requires a password:
+
+```bash
+mysql -u root -p < schema.sql
+```
+
+### 4. Configure database credentials
+
+The app reads these optional environment variables:
+
+```text
+GST_DB_HOST
+GST_DB_USER
+GST_DB_PASSWORD
+GST_DB_NAME
+```
+
+For a Homebrew MySQL setup with a root user and no password, no changes are required.
+
+If you have a password, run this before starting the app:
+
+```bash
+export GST_DB_PASSWORD="your-password"
+```
+
+Do not commit your actual password to GitHub.
+
+### 5. Run the app
+
+```bash
+python3 app.py
+```
+
+## Default Demo Login
 
 ```text
 Username: admin
 Password: admin123
 ```
 
-The default credentials are intended only for demonstration purposes.
+These credentials are only for local demonstration.
 
 ## Future Improvements
 
 - Password hashing
 - PDF invoice generation
-- Invoice search and filtering
-- Dashboard analytics
+- Invoice detail view
+- Delete/edit customers and products
 - Inventory management
-- Excel export
-- Improved UI design
+- CSV/Excel export
+- Dashboard analytics
+- Automated tests
+
+## Background
+
+This project is a modern reimplementation of an earlier academic/personal GST management prototype. The current codebase was rebuilt with a cleaner architecture and a more polished desktop interface.
 
 ## Author
 

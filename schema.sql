@@ -1,5 +1,4 @@
 CREATE DATABASE IF NOT EXISTS gst_management;
-
 USE gst_management;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -24,24 +23,28 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS invoices (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
-    subtotal DECIMAL(10,2),
-    gst_amount DECIMAL(10,2),
-    total_amount DECIMAL(10,2),
+    customer_id INT NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    gst_amount DECIMAL(10,2) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customers(id)
+    CONSTRAINT fk_invoice_customer
+        FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
 CREATE TABLE IF NOT EXISTS invoice_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    invoice_id INT,
-    product_id INT,
+    invoice_id INT NOT NULL,
+    product_id INT NOT NULL,
     quantity INT NOT NULL,
-    unit_price DECIMAL(10,2),
-    gst_rate DECIMAL(5,2),
-    line_total DECIMAL(10,2),
-    FOREIGN KEY (invoice_id) REFERENCES invoices(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    unit_price DECIMAL(10,2) NOT NULL,
+    gst_rate DECIMAL(5,2) NOT NULL,
+    line_total DECIMAL(10,2) NOT NULL,
+    CONSTRAINT fk_item_invoice
+        FOREIGN KEY (invoice_id) REFERENCES invoices(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_item_product
+        FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 INSERT IGNORE INTO users (username, password)
